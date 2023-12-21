@@ -65,17 +65,18 @@ buffer = sys.stdin.read()
 prompt_prefix = '#!/bin/zsh\n\n' + buffer[:cursor_position_char]
 prompt_suffix = buffer[cursor_position_char:]
 full_command = prompt_prefix + prompt_suffix
-response = openai.ChatCompletion.create(model=model, messages=[
-    {
-        "role":'system',
-        "content": "You are a zsh shell expert, please help me complete the following command, you should only output the completed command, no need to include any other explanation",
-    },
-    {
-        "role":'user',
-        "content": full_command,
-    }
-])
-completed_command = response['choices'][0]['message']['content']
-
+response = openai.chat.completions.create(
+    messages=[
+        {
+            "role":'system',
+            "content": "You are a zsh shell expert, please help me complete the following command, you should only output the completed command, no need to include any other explanation",
+        },
+        {
+            "role":'user',
+            "content": full_command,
+        },
+    ],
+    model=model
+)
+completed_command = response.choices[0].message.content
 sys.stdout.write(f"\n{completed_command.replace(prompt_prefix, '', 1)}")
-
