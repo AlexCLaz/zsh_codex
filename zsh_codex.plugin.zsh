@@ -8,7 +8,7 @@ create_completion() {
     # Get the text typed until now.
     text=${BUFFER}
     #echo $cursor_line $cursor_col
-    completion=$(echo -n "$text" | $ZSH_CUSTOM/plugins/zsh_codex/create_completion.py $CURSOR)
+    completion=$(echo -n "$text" | $ZSH_CUSTOM/plugins/zsh_openai/create_completion.py $CURSOR)
     text_before_cursor=${text:0:$CURSOR}
     text_after_cursor=${text:$CURSOR}
     # Add completion to the current buffer.
